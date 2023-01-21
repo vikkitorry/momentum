@@ -122,7 +122,35 @@ getWeather()
 
 city.addEventListener('change', getWeather)
 
-//
+// quotes
+
+async function getQuotes() {  
+    const quotes = './quotes.json';
+    const res = await fetch(quotes);
+    const data = await res.json(); 
+  }
+  getQuotes();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
