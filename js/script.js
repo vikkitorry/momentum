@@ -117,21 +117,29 @@ async function getWeather() {
     wind.textContent = `${data.wind.speed}`;
     humidity.textContent = `${data.main.humidity}`;
     
-    weatherDescription.textContent = data.weather[0].description;}
+    weatherDescription.textContent = data.weather[0].description;
+}
 getWeather()
 
 city.addEventListener('change', getWeather)
 
 // quotes
+const quote = document.querySelector('.quote');
+const author = document.querySelector('.author');
+const changeQuote = document.querySelector('.change-quote');
 
 async function getQuotes() {  
-    const quotes = 'js/quotes.json';
+    const quotes = './js/data.json';
     const res = await fetch(quotes);
     const data = await res.json();
-    console.log(data);
+    let rundomQuote = Math.floor(Math.random() * 7);
+    quote.textContent = data[rundomQuote].text;
+    author.textContent = data[rundomQuote].author;
   }
-  getQuotes();
+  getQuotes()
+changeQuote.addEventListener('click', getQuotes)
 
+//
 
 
 
