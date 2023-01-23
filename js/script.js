@@ -151,6 +151,18 @@ const playListContainer = document.querySelector('.play-list');
 let isPlay = false;
 const audio = new Audio();
 let playNum = 0;
+const volume = document.querySelector('.volume');
+
+function muteVolume () {
+    if (volume.classList.contains('volume-mute') === true) {
+    volume.classList.remove('volume-mute'); 
+    audio.volume = true; 
+    } else {
+    volume.classList.add('volume-mute');
+    audio.volume = 0;
+    }
+}
+volume.addEventListener('click', muteVolume);
 
 //add new element 'li'
 playList.forEach(elm => {
@@ -215,33 +227,118 @@ audio.addEventListener('ended', function() {
 import playList from './playList.js';
 
 // advanced audio
-/*
-const progressPlay = document.querySelector('.play-progress');
-const songCurrentTime = document.querySelector('.song-time');
-const songDuration = document.querySelector('.song-duration');
 
-ПОДКЛЮЧИТЬ ПОЛЗУНОК К МУЗЫКЕ
+const progressPlay = document.querySelector('.play-progress');
+const songTime = document.querySelector('.song-time');
+const songDuration = document.querySelector('.song-duration');
 
 function updateProgressValue() {
     progressPlay.max = audio.duration;
     progressPlay.value = audio.currentTime;
-    songCurrentTime.innerHTML = (formatTime(Math.floor(audio.currentTime)));
+    songTime.innerHTML = (formatTime(Math.floor(audio.currentTime)));
 };
 
 function formatTime(seconds) {
-    let minutes = Math.floor((seconds / 60));
+    let min = Math.floor((seconds / 60));
     let sec = Math.floor(seconds - (min * 60));
     if (sec < 10){ 
         sec  = `0${sec}`;
     };
-    return `${minutes}:${sec}`;
+    return `${min}:${sec}`;
 };
-*/
 
+setInterval(updateProgressValue, 1000);
+
+function changeProgressPlay() {
+    audio.currentTime = progressPlay.value;
+};
+
+progressPlay.addEventListener('input', changeProgressPlay);
 
 //settings
 
 
+
+
+
+
+
+
+
+
+
+
+
+//todo
+
+const todoBtn = document.querySelector('.todo-button');
+const todoList = document.querySelector('.todo');
+const input = document.querySelector('.todo-text');
+const ul = document.querySelector('.todo-items');
+
+todoBtn.addEventListener('click', () => {
+    todoList.classList.toggle('todo-active');
+})
+
+const listenDeleteTodo = (element) => {
+    element.addEventListener("click", () => {
+        element.parentElement.remove();
+    });
+}
+
+const createTodo = () => {
+    const li = document.createElement('li');
+    li.classList.add('todo-item')
+
+    const textLabel = document.createElement('label');
+    textLabel.classList.add('todo-content');
+    const check = document.createElement('input');
+    check.setAttribute('type', 'checkbox');
+    const textSpan = document.createElement('span')
+    textSpan.classList.add('text-span')
+    textSpan.textContent = input.value;
+    textLabel.append(check);
+    textLabel.append(textSpan);
+
+    const deleteBtn = document.createElement('span');
+    deleteBtn.classList.add('todo-trash');
+
+    ul.appendChild(li).append(textLabel, deleteBtn);
+    input.value = '';
+    listenDeleteTodo(deleteBtn);
+
+}
+
+input.addEventListener("change", createTodo);
+
+const setLocalStorageTodo = () => {
+    const ul = document.querySelector('.todo-items');
+    localStorage.setItem('todo', ul.innerHTML);
+    const check = document.querySelectorAll('input[type="checkbox"]');
+    let array = [];
+    for (let i = 0; i < check.length; i++) {
+        array.push(check[i].checked);
+    }
+    localStorage.setItem('check', JSON.stringify(array));
+}
+window.addEventListener('beforeunload', setLocalStorageTodo);
+
+const getLocalTodo = () => {
+    const data = localStorage.getItem('todo');
+    if (data) {
+        ul.innerHTML = data;
+    }
+    const deleteButtons = document.querySelectorAll('.todo-trash');
+    for (const button of deleteButtons) {
+        listenDeleteTodo(button);
+    }
+    const check = document.querySelectorAll('input[type="checkbox"]');
+    let array = JSON.parse(localStorage.getItem('check'));
+    for (let i = 0; i < check.length; i++) {
+        check[i].checked = array[i];
+    }
+}
+getLocalTodo();
 
 
 

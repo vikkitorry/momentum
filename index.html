@@ -15,6 +15,7 @@
         <button class="play-prev player-icon"></button>
         <button class="play player-icon"></button>
         <button class="play-next player-icon"></button>
+        <button class="volume player-icon"></button>
       </div>
       <div class="play-timer">
         <div class="song-time">00:00</div>
@@ -53,12 +54,43 @@
     </div>
   </main>
   <footer class="footer">
-    <button class="change-quote"></button>
-
-      <div class="quote"></div>
-      <div class="author"></div>
-
+      <div class="footer-items">
+        <div class="footer-item">
+          <button class="settings-icon player-icon"></button>
+        </div>
+        <div class="footer-item">
+          <button class="change-quote"></button>
+          <div class="quote"></div>
+          <div class="author"></div>
+        </div>
+    
+        <div class="footer-item todo-list">
+          <p class="todo-button">Todo</p>
+        </div>
+      </div>
   </footer>
+  <div class="todo">
+    <div class="todo-header">
+      <div class="todo-input">
+        <input class="todo-text" type="text" placeholder="New Todo">
+        <span class="todo-add"></span>
+      </div>
+      <div class="todo-options">Inbox</div>
+    </div>
+    <ul class="todo-items"></ul>
+  </div>
+
+
+
+  <div class="settings">
+
+    
+  </div>
+
+
+
+  
+
   <script type = "module" src="js/script.js"></script>
 </body>
 </html>
