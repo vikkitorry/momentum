@@ -21,6 +21,8 @@ showTime();
 // greeting
 
  const greeting = document.querySelector('.greeting');
+ let hours
+
  const getTimeOfDay = () => {
     if (hours > 5 && hours < 12) {
        return 'morning'; 
@@ -145,42 +147,99 @@ changeQuote.addEventListener('click', getQuotes);
 const play = document.querySelector('.play');
 const playPrevBtn = document.querySelector('.play-prev');
 const playNextBtn = document.querySelector('.play-next');
+const playListContainer = document.querySelector('.play-list');
 let isPlay = false;
 const audio = new Audio();
 let playNum = 0;
 
+//add new element 'li'
+playList.forEach(elm => {
+    const li = document.createElement('li');
+    li.classList.add('play-item');
+    li.textContent = elm.title;
+    playListContainer.append(li)
+})
+const itemPlay = document.querySelectorAll('.play-item');
+
 function playAudio() {
     if (!isPlay) {
-        audio.src = '';
+        audio.src = playList[playNum].src;
         audio.currentTime = 0;
         audio.play();
-        play.classList.toggle('pause');
-    } else if (isPlay == false) {
-        play.classList.toggle('pause');
+        isPlay = true;
+        for (let i = 0; i < itemPlay.length; i++) {
+            if (itemPlay[i].classList.contains('item-active') === true) {
+                itemPlay[i].classList.remove('item-active');
+            }	
+        }
+        itemPlay[playNum].classList.add('item-active');
+        play.classList.add('pause');
+    } else {
+        isPlay = false;
+        play.classList.remove('pause');
         audio.pause();
     }
 }
+play.addEventListener('click', playAudio);
 
 function playPrev() {
-    playNum = 0 ? playNum = 4 : playNum--
-    playAudio()
+    if (playNum > 0) {
+        playNum--;
+        isPlay = false;
+        playAudio()
+    } else {
+        playNum = 4;
+        isPlay = false;
+        playAudio()
+    }
 }
 
 function playNext() {
-    playNum = 4 ? playNum = 0 : playNum++
-    playAudio()
+    if (playNum < 4) {
+        playNum++;
+        isPlay = false;
+        playAudio()
+    } else {
+        playNum = 0;
+        isPlay = false;
+        playAudio()
+    }  
 }
 
-play.addEventListener('click', playAudio);
 playPrevBtn.addEventListener('click', playPrev);
 playNextBtn.addEventListener('click', playNext);
+audio.addEventListener('ended', function() {
+    playNext();
+});
+
+import playList from './playList.js';
+
+// advanced audio
+/*
+const progressPlay = document.querySelector('.play-progress');
+const songCurrentTime = document.querySelector('.song-time');
+const songDuration = document.querySelector('.song-duration');
+
+ПОДКЛЮЧИТЬ ПОЛЗУНОК К МУЗЫКЕ
+
+function updateProgressValue() {
+    progressPlay.max = audio.duration;
+    progressPlay.value = audio.currentTime;
+    songCurrentTime.innerHTML = (formatTime(Math.floor(audio.currentTime)));
+};
+
+function formatTime(seconds) {
+    let minutes = Math.floor((seconds / 60));
+    let sec = Math.floor(seconds - (min * 60));
+    if (sec < 10){ 
+        sec  = `0${sec}`;
+    };
+    return `${minutes}:${sec}`;
+};
+*/
 
 
-
-
-
-
-
+//settings
 
 
 
