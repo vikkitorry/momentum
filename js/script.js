@@ -1,5 +1,9 @@
-//time and date
+let key = 'en';
+const tag = document.querySelector('.tag');
+const chooseImg = document.querySelector('.image');
+const show = document.querySelectorAll('.show');
 
+//time and date
 const time = document.querySelector('.time');
 const date = document.querySelector('.date');
 
@@ -20,7 +24,7 @@ showTime();
 
 // greeting
 
- const greeting = document.querySelector('.greeting');
+const greeting = document.querySelector('.greeting');
  let hours
 
  const getTimeOfDay = () => {
@@ -44,9 +48,11 @@ const showGreeting = () => {
     greeting.textContent = `Good ${timeOfDate}`;
 }
 showGreeting()
+const timeOfDay = getTimeOfDay();
 
 //name LocalStorage
 
+let tagImg = timeOfDay;
 const nameUser = document.querySelector('.name');
 const setLocalStorage = () => {
     localStorage.setItem('nameUser', nameUser.value);
@@ -59,6 +65,66 @@ const getLocalStorage = () => {
     }
 }
 window.addEventListener('load', getLocalStorage);
+
+
+
+/*
+const setLocalStorageSetting = () => {
+    localStorage.setItem('lang', key);
+    localStorage.setItem('tag', tagImg);
+    localStorage.setItem('img', chooseImg.textContent);
+    let arrayElementsShow = [];
+    for (let i = 0; i < show.length; i++) {
+        arrayElementsShow.push(show[i].textContent);
+    }
+    localStorage.setItem('show', JSON.stringify(arrayElementsShow));
+}
+window.addEventListener('beforeunload', setLocalStorageSetting)
+
+const getLocalStorageSetting = () => {
+    if (localStorage.getItem('lang')) {
+        key = localStorage.getItem('lang');
+        chooseImg.textContent = localStorage.getItem('img');
+        tagImg = localStorage.getItem('tag');
+        tag.value = localStorage.getItem('tag');
+        let arrayElementsShow = JSON.parse(localStorage.getItem('show'));
+        for (let i = 0; i < show.length; i++) {
+            show[i].textContent = arrayElementsShow[i];
+        }
+    }
+}
+getLocalStorageSetting()
+
+const pageItems = {
+    changeLanguage: 'en',
+    photoSource: 'github',
+    blocks: ['time', 'date','greeting-container', 'footer-item', 'weather', 'player']
+}
+
+const showBlocks = () => {
+    for (let i = 0; i < show.length; i++) {
+        let block = document.querySelector(`.${pageItems.blocks[i]}`);
+        if (show[i].textContent === 'Hide' || show[i].textContent === 'Убрать') {
+            show[i].style.opacity = '0.8';
+            block.style.opacity = '0';
+        } else {
+            show[i].style.opacity = '1';
+            block.style.opacity = '1';
+        }
+    }
+}
+showBlocks();
+*/
+
+
+
+
+
+
+
+
+
+
 
 //Change BackGround Image
 
@@ -257,9 +323,46 @@ progressPlay.addEventListener('input', changeProgressPlay);
 
 //settings
 
+const settingsBtn = document.querySelector('.settings-icon');
+const settingsPopup = document.querySelector('.popup-settings');
+const settingsOverlay = document.querySelector('.popup-overlay');
+const settingList = document.querySelector('.setting-list');
 
+function settingToggler() {
+    settingsPopup.classList.toggle('popup-settings-active');
+    settingsOverlay.classList.toggle('popup-overlay-active');
+    settingList.classList.toggle('popup-active');
+}
 
+settingsBtn.addEventListener('click', settingToggler)
+settingsOverlay.addEventListener('click', settingToggler)
+/*
+for (let i = 0; i < show.length; i++) {
+    let block = document.querySelector(`.${pageItems.blocks[i]}`);
+    show[i].addEventListener('click', () => {
+        if (show[i].textContent === 'Show' || show[i].textContent === 'Отобразить') {
+            show[i].style.opacity = '0.8';
+            if (key === 'en') {
+                show[i].textContent = 'Hide';
+            } else {
+                show[i].textContent = 'Убрать';
+            }
+            block.style.opacity = '0';
+            block.style.transition = '1s';
+        } else {
+            show[i].style.opacity = '1';
+            if (key === 'en') {
+                show[i].textContent = 'Show';
+            } else {
+                show[i].textContent = 'Отобразить';
+            }
+            block.style.opacity = '1';
+            block.style.transition = '1s';
+        }
+    })
+}
 
+*/
 
 
 
@@ -273,7 +376,7 @@ progressPlay.addEventListener('input', changeProgressPlay);
 
 const todoBtn = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo');
-const input = document.querySelector('.todo-text');
+const inputTodo = document.querySelector('.todo-text');
 const ul = document.querySelector('.todo-items');
 
 todoBtn.addEventListener('click', () => {
@@ -289,30 +392,24 @@ const listenDeleteTodo = (element) => {
 const createTodo = () => {
     const li = document.createElement('li');
     li.classList.add('todo-item')
-
     const textLabel = document.createElement('label');
     textLabel.classList.add('todo-content');
     const check = document.createElement('input');
     check.setAttribute('type', 'checkbox');
     const textSpan = document.createElement('span')
     textSpan.classList.add('text-span')
-    textSpan.textContent = input.value;
+    textSpan.textContent = inputTodo.value;
     textLabel.append(check);
     textLabel.append(textSpan);
-
     const deleteBtn = document.createElement('span');
     deleteBtn.classList.add('todo-trash');
-
     ul.appendChild(li).append(textLabel, deleteBtn);
-    input.value = '';
+    inputTodo.value = '';
     listenDeleteTodo(deleteBtn);
-
 }
-
-input.addEventListener("change", createTodo);
+inputTodo.addEventListener("change", createTodo);
 
 const setLocalStorageTodo = () => {
-    const ul = document.querySelector('.todo-items');
     localStorage.setItem('todo', ul.innerHTML);
     const check = document.querySelectorAll('input[type="checkbox"]');
     let array = [];
