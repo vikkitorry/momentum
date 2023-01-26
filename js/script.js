@@ -2,6 +2,7 @@ let key = 'en';
 const tag = document.querySelector('.tag');
 const chooseImg = document.querySelector('.image');
 const show = document.querySelectorAll('.show');
+const city = document.querySelector('.city');
 
 //time and date
 const time = document.querySelector('.time');
@@ -9,7 +10,7 @@ const date = document.querySelector('.date');
 
 const showDate = () => {
     const dateD = new Date();
-    const options = {weekday: 'long', month: 'long', day: 'numeric'};
+    const options = { weekday: 'long', month: 'long', day: 'numeric' };
     const currentDate = dateD.toLocaleDateString('en-EN', options);
     date.textContent = currentDate;
 }
@@ -25,11 +26,11 @@ showTime();
 // greeting
 
 const greeting = document.querySelector('.greeting');
- let hours
+let hours;
 
- const getTimeOfDay = () => {
+const getTimeOfDay = () => {
     if (hours > 5 && hours < 12) {
-       return 'morning'; 
+        return 'morning';
     } else if (hours >= 12 && hours < 18) {
         return 'afternoon';
     } else if (hours >= 18 && hours < 24) {
@@ -40,15 +41,142 @@ const greeting = document.querySelector('.greeting');
     }
 }
 
-const showGreeting = () => {
+const showGreeting = (key) => {
     const date = new Date();
     hours = date.getHours();
     getTimeOfDay()
     const timeOfDate = getTimeOfDay();
     greeting.textContent = `Good ${timeOfDate}`;
 }
-showGreeting()
+
+const showGreetingRU = () => {
+    switch (greeting.textContent) {
+     case `Good morning`: greeting.textContent = `Доброе утро`;
+        break;
+    case `Good afternoon`: greeting.textContent = `Добрый день`;
+        break;
+    case `Good evening`: greeting.textContent = `Добрый вечер`;
+        break;
+    case `Good night`: greeting.textContent = `Доброй ночи`;
+        break;   
+    }
+}
+
+
+showGreeting(key)
 const timeOfDay = getTimeOfDay();
+
+//language
+
+
+const arrayBlocks = [
+    ['Время:', 'Дата:', 'Приветствие:', 'Цитата:', 'Погода:', 'Плеер:'],
+    ['Time:', 'Date:', 'Greeting:', 'Quote:', 'Weather:', 'Player:']
+];
+const language = document.querySelector('.language');
+const todoOpt = document.querySelector('.todo-options');
+const todoPlaceholder = document.querySelector('.todo-text');
+const settingsTitle = document.querySelector('.popup-title');
+const settingLanguage = document.querySelector('.change-language');
+const settingImage = document.querySelector('.change-img');
+const todoBtn = document.querySelector('.todo-button');
+const nameSetting = document.querySelectorAll('.name-setting');
+
+const changeAppLanguage = (key) => {
+    if (key === 'ru') {
+        language.textContent = 'Русский';
+        settingsTitle.textContent = 'Настройки';
+        settingLanguage.textContent = 'Выбрать язык:';
+        settingImage.textContent = 'Выбрать источник изображений:';
+        todoBtn.textContent = 'Заметки';
+        todoOpt.textContent = '';
+        todoPlaceholder.placeholder = 'Новая заметка';
+        for (let i = 0; i < show.length; i++) {
+            if (show[i].textContent === 'Отображать' || show[i].textContent === 'Show') {
+                show[i].textContent = 'Отображать';
+            } else {
+                show[i].textContent = 'Скрыть';
+            }
+        }
+        for (let i = 0; i < nameSetting.length; i++) {
+            nameSetting[i].textContent = arrayBlocks[0][i];
+        }
+    } else {
+        language.textContent = 'English';
+        settingsTitle.textContent = 'Settings';
+        settingLanguage.textContent = 'Select language:';
+        settingImage.textContent = 'Select images source:';
+        todoBtn.textContent = 'Todo';
+        todoOpt.textContent = 'Inbox';
+        todoPlaceholder.placeholder = 'NEW TODO';
+        for (let i = 0; i < show.length; i++) {
+            if (show[i].textContent === 'Show' || show[i].textContent === 'Отображать') {
+                show[i].textContent = 'Show';
+            } else {
+                show[i].textContent = 'Hide';
+            }
+        }
+        for (let i = 0; i < nameSetting.length; i++) {
+            nameSetting[i].textContent = arrayBlocks[1][i];
+        }
+    }
+}
+changeAppLanguage(key);
+
+language.addEventListener('click', () => {
+    if (key === 'en') {
+        language.textContent = 'Русский';
+        settingsTitle.textContent = 'Настройки';
+        settingLanguage.textContent = 'Выбрать язык:';
+        settingImage.textContent = 'Выбрать источник изображений:';
+        todoBtn.textContent = 'Заметки';
+        todoOpt.textContent = '';
+        todoPlaceholder.placeholder = 'Новая заметка';
+        showGreetingRU()
+        if (city.value === 'Krasnoyarsk') {
+            city.value = 'Красноярск';
+        }
+        for (let i = 0; i < show.length; i++) {
+            if (show[i].textContent === 'Show') {
+                show[i].textContent = 'Отображать';
+            } else {
+                show[i].textContent = 'Скрыть';
+            }
+        }
+        for (let i = 0; i < nameSetting.length; i++) {
+            nameSetting[i].textContent = arrayBlocks[0][i];
+        }
+        key = 'ru';
+
+    } else {
+        language.textContent = 'English';
+        settingsTitle.textContent = 'Settings';
+        settingLanguage.textContent = 'Select language:';
+        settingImage.textContent = 'Select images source:';
+        todoBtn.textContent = 'Todo';
+        todoOpt.textContent = 'Inbox';
+        todoPlaceholder.placeholder = 'NEW TODO';
+        showGreeting();
+        if (city.value === 'Красноярск') {
+            city.value = 'Krasnoyarsk';
+        }
+        for (let i = 0; i < show.length; i++) {
+            if (show[i].textContent === 'Отображать') {
+                show[i].textContent = 'Show';
+            } else {
+                show[i].textContent = 'Hide';
+            }
+        }
+        for (let i = 0; i < nameSetting.length; i++) {
+            nameSetting[i].textContent = arrayBlocks[1][i];
+        }
+
+        key = 'en';
+    }
+    showTime(key);
+    getWeather(key);
+    getQuotes(key);
+})
 
 //name LocalStorage
 
@@ -58,7 +186,7 @@ const setLocalStorage = () => {
     localStorage.setItem('nameUser', nameUser.value);
 }
 window.addEventListener('beforeunload', setLocalStorage);
- 
+
 const getLocalStorage = () => {
     if (localStorage.getItem('nameUser')) {
         nameUser.value = localStorage.getItem('nameUser');
@@ -67,38 +195,9 @@ const getLocalStorage = () => {
 window.addEventListener('load', getLocalStorage);
 
 
-
-/*
-const setLocalStorageSetting = () => {
-    localStorage.setItem('lang', key);
-    localStorage.setItem('tag', tagImg);
-    localStorage.setItem('img', chooseImg.textContent);
-    let arrayElementsShow = [];
-    for (let i = 0; i < show.length; i++) {
-        arrayElementsShow.push(show[i].textContent);
-    }
-    localStorage.setItem('show', JSON.stringify(arrayElementsShow));
-}
-window.addEventListener('beforeunload', setLocalStorageSetting)
-
-const getLocalStorageSetting = () => {
-    if (localStorage.getItem('lang')) {
-        key = localStorage.getItem('lang');
-        chooseImg.textContent = localStorage.getItem('img');
-        tagImg = localStorage.getItem('tag');
-        tag.value = localStorage.getItem('tag');
-        let arrayElementsShow = JSON.parse(localStorage.getItem('show'));
-        for (let i = 0; i < show.length; i++) {
-            show[i].textContent = arrayElementsShow[i];
-        }
-    }
-}
-getLocalStorageSetting()
-
+//hide page items
 const pageItems = {
-    changeLanguage: 'en',
-    photoSource: 'github',
-    blocks: ['time', 'date','greeting-container', 'footer-item', 'weather', 'player']
+    blocks: ['time', 'date', 'greeting-container', 'quotes', 'weather', 'player']
 }
 
 const showBlocks = () => {
@@ -114,15 +213,6 @@ const showBlocks = () => {
     }
 }
 showBlocks();
-*/
-
-
-
-
-
-
-
-
 
 
 
@@ -139,7 +229,7 @@ let randomNum = getRandomNum();
 const setBg = () => {
     const timeOfDate = getTimeOfDay();
     const bgNum = randomNum.toString().padStart(2, '0');
-//smooth change BackGround Image
+    //smooth change BackGround Image
     const img = new Image();
     img.src = `https://raw.githubusercontent.com/rolling-scopes-school/stage1-tasks/assets/images/${timeOfDate}/${bgNum}.jpg`;
     img.onload = () => {
@@ -148,22 +238,26 @@ const setBg = () => {
 }
 setBg();
 
+
+
 //Slaider change BackGround Image
 
 const slideNext = document.querySelector('.slide-next');
 const slidePrev = document.querySelector('.slide-prev');
 
 function getSlideNext() {
-     randomNum < 20 ? (randomNum++) : (randomNum = 1);
-     setBg() 
+    randomNum < 20 ? (randomNum++) : (randomNum = 1);
+    setBg()
 }
 function getSlidePrev() {
     randomNum > 1 ? (randomNum--) : (randomNum = 20);
-    setBg() 
+    setBg()
 }
 
 slideNext.addEventListener('click', getSlideNext);
 slidePrev.addEventListener('click', getSlidePrev);
+
+
 
 // weather
 
@@ -172,24 +266,57 @@ const temperature = document.querySelector('.temperature');
 const wind = document.querySelector('.wind');
 const humidity = document.querySelector('.humidity');
 const weatherDescription = document.querySelector('.weather-description');
-const city = document.querySelector('.city');
-city.value = 'Krasnoyarsk';
+//city = document.querySelector('.city');
+const weatherError = document.querySelector('.weather-error');
+
+if (key === 'ru') {
+    city.value = 'Красноярск';
+} else {
+    city.value = 'Krasnoyarsk';
+}
+
+const setLocalStorageWeather = () => {
+    localStorage.setItem('city', city.value);
+}
+window.addEventListener('beforeunload', setLocalStorageWeather);
+
+const getLocalStorageWeather = () => {
+    if (localStorage.getItem('city')) {
+        city.value = localStorage.getItem('city');
+    }
+    getWeather(key);
+}
+window.addEventListener('load', getLocalStorageWeather);
 
 async function getWeather() {
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=ru&appid=313445949dd6e620b03c5721573a7c81&units=metric`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city.value}&lang=${key}&appid=313445949dd6e620b03c5721573a7c81&units=metric`;
     const res = await fetch(url);
     const data = await res.json();
-    weatherIcon.className = 'weather-icon owf';
-    weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-    temperature.textContent = `${Math.round(data.main.temp)}°C`;
-
-    wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
-    humidity.textContent = `Humidity: ${data.main.humidity}%`;
-    
-    weatherDescription.textContent = data.weather[0].description;
+    if (res.ok === true) {
+        weatherIcon.className = 'weather-icon owf';
+        weatherIcon.classList.add(`owf-${data.weather[0].id}`);
+        temperature.textContent = `${Math.round(data.main.temp)}°C`;
+        weatherDescription.textContent = data.weather[0].description;
+        if (key === 'en') {
+            wind.textContent = `Wind speed: ${Math.round(data.wind.speed)} m/s`;
+            humidity.textContent = `Humidity: ${data.main.humidity}%`;
+        } else {
+            wind.textContent = `Скорость ветра: ${Math.round(data.wind.speed)} м/с`;
+            humidity.textContent = `Влажность: ${data.main.humidity}%`;
+        }
+        weatherError.textContent = ``;
+    } else {
+        weatherError.textContent = `Error!!! \"${city.value}\" ${data.message}`;
+        weatherIcon.className = '';
+        wind.textContent = ``;
+        humidity.textContent = ``;
+        temperature.textContent = ``;
+        weatherDescription.textContent = '';
+    }
 }
-getWeather()
-city.addEventListener('change', getWeather);
+getWeather(key);
+city.addEventListener('change', () => { getWeather(key) });
+
 
 // quotes
 
@@ -197,16 +324,23 @@ const quote = document.querySelector('.quote');
 const author = document.querySelector('.author');
 const changeQuote = document.querySelector('.change-quote');
 
-async function getQuotes() {  
-    const quotes = './js/data.json';
+async function getQuotes() {
+    let quotes;
+    if (key === 'ru') {
+        quotes = './js/quotesRU.json';
+    } else if (key === 'en') {
+        quotes = './js/quotesEn.json';
+    }
     const res = await fetch(quotes);
     const data = await res.json();
     let rundomQuote = Math.floor(Math.random() * 7);
     quote.textContent = data[rundomQuote].text;
     author.textContent = data[rundomQuote].author;
-  }
-getQuotes()
+}
+getQuotes(key)
 changeQuote.addEventListener('click', getQuotes);
+
+
 
 //audio
 
@@ -219,13 +353,13 @@ const audio = new Audio();
 let playNum = 0;
 const volume = document.querySelector('.volume');
 
-function muteVolume () {
+function muteVolume() {
     if (volume.classList.contains('volume-mute') === true) {
-    volume.classList.remove('volume-mute'); 
-    audio.volume = true; 
+        volume.classList.remove('volume-mute');
+        audio.volume = true;
     } else {
-    volume.classList.add('volume-mute');
-    audio.volume = 0;
+        volume.classList.add('volume-mute');
+        audio.volume = 0;
     }
 }
 volume.addEventListener('click', muteVolume);
@@ -248,7 +382,7 @@ function playAudio() {
         for (let i = 0; i < itemPlay.length; i++) {
             if (itemPlay[i].classList.contains('item-active') === true) {
                 itemPlay[i].classList.remove('item-active');
-            }	
+            }
         }
         itemPlay[playNum].classList.add('item-active');
         play.classList.add('pause');
@@ -281,16 +415,18 @@ function playNext() {
         playNum = 0;
         isPlay = false;
         playAudio()
-    }  
+    }
 }
 
 playPrevBtn.addEventListener('click', playPrev);
 playNextBtn.addEventListener('click', playNext);
-audio.addEventListener('ended', function() {
+audio.addEventListener('ended', function () {
     playNext();
 });
 
 import playList from './playList.js';
+
+
 
 // advanced audio
 
@@ -307,8 +443,8 @@ function updateProgressValue() {
 function formatTime(seconds) {
     let min = Math.floor((seconds / 60));
     let sec = Math.floor(seconds - (min * 60));
-    if (sec < 10){ 
-        sec  = `0${sec}`;
+    if (sec < 10) {
+        sec = `0${sec}`;
     };
     return `${min}:${sec}`;
 };
@@ -320,6 +456,8 @@ function changeProgressPlay() {
 };
 
 progressPlay.addEventListener('input', changeProgressPlay);
+
+
 
 //settings
 
@@ -336,11 +474,11 @@ function settingToggler() {
 
 settingsBtn.addEventListener('click', settingToggler)
 settingsOverlay.addEventListener('click', settingToggler)
-/*
+
 for (let i = 0; i < show.length; i++) {
     let block = document.querySelector(`.${pageItems.blocks[i]}`);
     show[i].addEventListener('click', () => {
-        if (show[i].textContent === 'Show' || show[i].textContent === 'Отобразить') {
+        if (show[i].textContent === 'Show' || show[i].textContent === 'Отображать') {
             show[i].style.opacity = '0.8';
             if (key === 'en') {
                 show[i].textContent = 'Hide';
@@ -351,41 +489,34 @@ for (let i = 0; i < show.length; i++) {
             block.style.transition = '1s';
         } else {
             show[i].style.opacity = '1';
-            if (key === 'en') {
-                show[i].textContent = 'Show';
-            } else {
-                show[i].textContent = 'Отобразить';
-            }
-            block.style.opacity = '1';
-            block.style.transition = '1s';
+        if (key === 'en') {
+            show[i].textContent = 'Show';
+        } else {
+            show[i].textContent = 'Отображать';
+        }
+        block.style.opacity = '1';
+        block.style.transition = '1s';
         }
     })
 }
-
-*/
-
-
-
-
-
-
 
 
 
 //todo
 
-const todoBtn = document.querySelector('.todo-button');
+//todoBtn = document.querySelector('.todo-button');
 const todoList = document.querySelector('.todo');
-const inputTodo = document.querySelector('.todo-text');
 const ul = document.querySelector('.todo-items');
+const inputTodo = document.querySelector('.todo-text');
 
-todoBtn.addEventListener('click', () => {
+function showTodo() {
     todoList.classList.toggle('todo-active');
-})
+}
+todoBtn.addEventListener('click', showTodo)
 
-const listenDeleteTodo = (element) => {
-    element.addEventListener("click", () => {
-        element.parentElement.remove();
+const deleteTodo = (elm) => {
+    elm.addEventListener("click", () => {
+        elm.parentElement.remove();
     });
 }
 
@@ -405,7 +536,7 @@ const createTodo = () => {
     deleteBtn.classList.add('todo-trash');
     ul.appendChild(li).append(textLabel, deleteBtn);
     inputTodo.value = '';
-    listenDeleteTodo(deleteBtn);
+    deleteTodo(deleteBtn);
 }
 inputTodo.addEventListener("change", createTodo);
 
@@ -427,7 +558,7 @@ const getLocalTodo = () => {
     }
     const deleteButtons = document.querySelectorAll('.todo-trash');
     for (const button of deleteButtons) {
-        listenDeleteTodo(button);
+        deleteTodo(button);
     }
     const check = document.querySelectorAll('input[type="checkbox"]');
     let array = JSON.parse(localStorage.getItem('check'));

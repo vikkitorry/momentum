@@ -170,6 +170,14 @@ body {
   font-size: 44px;
 }
 
+.icon-temperature {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  font-size: 20px;
+}
+
 .city {
   width: 170px;
   height: 34px;
@@ -316,13 +324,13 @@ body {
   min-height: 200px;
   max-height: 400px;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.69);
-  box-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 4px rgb(0 0 0 / 30%);
   border-radius: 15px;
-  padding: 15px;
+  padding: 17px;
   opacity: 0;
-  z-index: -1;
-  transition: 1s;
+  z-index: -10;
+  transition: 0,8s;
 }
 
 .todo::-webkit-scrollbar {
@@ -411,6 +419,11 @@ input[type="checkbox"]:checked + span {
   background-image: url("../assets/svg/settings.svg");
 }
 
+.set-icon {
+  padding-bottom: 7px;
+  padding-left: 10px;
+}
+
 .change-quote {
   margin-bottom: 30px;
   background-image: url("../assets/svg/reload.svg");  
@@ -433,7 +446,7 @@ input[type="checkbox"]:checked + span {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: -1;
+  z-index: -10;
   transition: .7s all linear;
 }
 
@@ -444,15 +457,15 @@ input[type="checkbox"]:checked + span {
 
 .popup-settings {
   width: 500px;
-  background: rgba(0, 0, 0, 0.78);
-  box-shadow: 0px 5px 5px rgb(0 0 0 / 25%);
-  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 20px;
   display: flex;
+  box-shadow: 7px rgb(0 0 0 / 30%);
   flex-direction: column;
   align-items: center;
   padding: 20px 40px;
-  transform: translateY(300%);
-  transition: .7s all linear;
+  transform: translateY(-400%);
+  transition: 0.7s all linear;
   z-index: 100;
 }
 
@@ -494,7 +507,7 @@ input[type="checkbox"]:checked + span {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 80;
+  z-index: 70;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.485);
@@ -521,20 +534,34 @@ input[type="checkbox"]:checked + span {
     padding: 5px;
   }
 
+.footer-item.quotes {
+  visibility: hidden;
+}
+
   .name {
     font-size: 32px;
     padding: 5px;
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 440px) {
 
   .main {
+    margin-top: 60px;
     height: auto;
   }
 
   .header {
     height: auto;
+    align-items: stretch;
+  }
+
+  .weather {
+    align-items: flex-end;
+  }
+
+  .city {
+    font-size: 15px;
   }
 
   .greeting {
@@ -551,4 +578,19 @@ input[type="checkbox"]:checked + span {
   .city {
     max-width: 100px;
   }
+
+  .todo {
+    position: fixed;
+    width: 100%;
+    height: 30%;
+    left: 0;
+    top: 0;
+    z-index: -10;
+  }
+  
+  .todo-active {
+    opacity: 1;
+    z-index: 10;
+  }
 }
+
