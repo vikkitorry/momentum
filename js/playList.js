@@ -5,7 +5,7 @@ const playList = [
       duration: '00:39'
     },  
     {      
-      title: 'River Flows In You',
+      title: 'River Flows ',
       src: '../assets/sounds/River Flows In You.mp3',
       duration: '01:37'
     },
