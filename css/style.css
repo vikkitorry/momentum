@@ -559,11 +559,15 @@ input[type="checkbox"]:checked + span {
   .weather {
     align-items: flex-end;
   }
-
+  .time {
+    font-size: 48px;
+  }
+  .greeting-container, .name {
+    font-size: 24px;
+  }
   .city {
     font-size: 15px;
   }
-
   .greeting {
     display: block;
     text-align: center;
