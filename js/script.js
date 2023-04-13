@@ -343,6 +343,7 @@ changeQuote.addEventListener('click', getQuotes);
 
 
 //audio
+import {playList} from './playList.js';
 
 const play = document.querySelector('.play');
 const playPrevBtn = document.querySelector('.play-prev');
@@ -407,7 +408,7 @@ function playPrev() {
 }
 
 function playNext() {
-    if (playNum < 4) {
+    if (playNum < 3) {
         playNum++;
         isPlay = false;
         playAudio()
@@ -424,7 +425,7 @@ audio.addEventListener('ended', function () {
     playNext();
 });
 
-import playList from './playList.js';
+
 
 
 
